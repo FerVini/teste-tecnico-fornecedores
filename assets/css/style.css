@@ -1,0 +1,10 @@
+.container-fluid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.width-container {
+    width: 100%;
+    max-width: 960px;
+}
