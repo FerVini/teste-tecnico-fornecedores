@@ -26,7 +26,7 @@
         </header>
 
         <main class="row width-container">
-            <form action="" class="container bg-white" id="register-form">
+            <form action="../backend/cadastrar_fornecedor.php" method="POST" class="container bg-white" id="register-form">
                 <div class="form-group row my-4">
                     <div class="col-md-6">
                         <div class="input-group">
@@ -44,16 +44,19 @@
                     <div class="col-md-6 ">
                         <div class="input-group mb-1">
                             <input type="text" name="cnpj" id="cnpj" class="form-control input-lg" placeholder="CNPJ">
+                            <div class="invalid-feedback"></div>
                         </div>
                     </div>
                     <div class="col-md-6 ">
                         <div class="input-group mb-1">
                             <input type="text" name="razao_social" id="razao_social" class="form-control input-lg" placeholder="Razão Social">
+                            <div class="invalid-feedback"></div>
                         </div>
                     </div>
                     <div class="col-md-6 ">
                         <div class="input-group mb-1">
                             <input type="text" name="nome_fantasia" id="nome_fantasia" class="form-control input-lg" placeholder="Nome Fantasia">
+                            <div class="invalid-feedback"></div>
                         </div>
                     </div>
                     <div class="col-md-6 ">
@@ -67,13 +70,13 @@
                     <div class="col-md-6">
                         <div class="mb-1">
                             <label for="icms" class="form-label">ICMS:</label>
-                            <input type="text" id="icms" name="icms" class="form-control input-lg" placeholder="ICMS" required>
+                            <input type="text" id="icms" name="icms" class="form-control input-lg" placeholder="ICMS">
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="mb-1">
                             <label for="situacao" class="form-label">Situação:</label>
-                            <input type="text" id="situacao" name="situacao" class="form-control input-lg" placeholder="ICMS" required>
+                            <input type="text" id="situacao" name="situacao" class="form-control input-lg" placeholder="ICMS">
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -84,6 +87,7 @@
                     <div class="col-md-6">
                         <div class="input-group mb-1">
                             <input type="email" id="email" name="email" class="form-control input-lg" placeholder="E-mail">
+                            <div class="invalid-feedback"></div>
                         </div>
                     </div>
                 </div>
@@ -326,17 +330,15 @@
                     <div class="col-md-6">
                         <div class="input-group mb-1">
                             <input type="password" id="register_password" name="register_password" class="form-control input-lg" placeholder="Senha">
-                            <button class="btn btn-outline-secondary" type="button" id="button-addon2">
-                                <i class="bi bi-eye"></i>
-                            </button>
+                            
+                            <div class="invalid-feedback"></div>
                         </div>
                     </div>
                     <div class="col-md-6">
                         <div class="input-group mb-1">
                             <input type="password" id="register_password_verify" name="register_password_verify" class="form-control input-lg" placeholder="Senha">
-                            <button class="btn btn-outline-secondary" type="button" id="button-addon2">
-                                <i class="bi bi-eye"></i>
-                            </button>
+                            
+                            <div class="invalid-feedback"></div>
                         </div>
                     </div>
                 </div>
