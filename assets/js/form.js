@@ -3,13 +3,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!form) return;
 
+    function validarCNPJForm(cnpjInput) {
+        if (!cnpjInput) return false;
+
+        const cnpj = cnpjInput.value.trim().replace(/\D/g, '');
+
+        if (cnpj === '') return false;
+
+        if (!validarCNPJ(cnpj)) {
+            showError(cnpjInput, 'CNPJ inválido');
+            return false;
+        }
+
+        return true;
+    }
+
     form.addEventListener('submit', async (event) => {
-        event.preventDefault(); // bloqueia envio tradicional
+        event.preventDefault();
 
         clearErrors();
         let hasError = false;
 
-        // valida campos obrigatórios
+       
         const requiredFields = [
             { id: 'cnpj', message: 'CNPJ é obrigatório' },
             { id: 'razao_social', message: 'Razão Social é obrigatória' },
@@ -27,6 +42,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
+        const cnpjInput = document.getElementById('cnpj');
+        if (!validarCNPJForm(cnpjInput)) {
+            hasError = true;
+        }
+
         const password = document.getElementById('register_password');
         const passwordVerify = document.getElementById('register_password_verify');
 
@@ -37,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (hasError) return;
 
-        // coleta os dados do formulário
+       
         const formData = new FormData(form);
 
         try {
@@ -81,13 +101,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Atualização via AJAX
-const updateForm = document.querySelector('#update-form'); // supondo que seja o form de edição
+
+const updateForm = document.querySelector('#update-form'); 
 
 if (updateForm) {
     updateForm.addEventListener('submit', (event) => {
         event.preventDefault();
-        clearErrors(); // função já existente
+        clearErrors(); 
 
         const formData = new FormData(updateForm);
 
@@ -95,19 +115,19 @@ if (updateForm) {
             method: 'POST',
             body: formData
         })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert(data.success);
-                // opcional: atualizar tabela ou redirecionar
-                window.location.href = '../public/fornecedores.php';
-            } else if (data.error) {
-                alert(data.error);
-            }
-        })
-        .catch(err => {
-            console.error('Erro na requisição:', err);
-            alert('Erro ao atualizar fornecedor');
-        });
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.success);
+                    
+                    window.location.href = '../public/fornecedores.php';
+                } else if (data.error) {
+                    alert(data.error);
+                }
+            })
+            .catch(err => {
+                console.error('Erro na requisição:', err);
+                alert('Erro ao atualizar fornecedor');
+            });
     });
 }
