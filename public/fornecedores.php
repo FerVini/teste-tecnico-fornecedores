@@ -46,7 +46,11 @@ require __DIR__ . '/../backend/listar_fornecedores.php';
                                         <td><?= htmlspecialchars($fornecedor['email']) ?></td>
                                         <td class="text-center">
                                             <a href="atualizar_fornecedor.php?id=<?= $fornecedor['id'] ?>" class="btn btn-sm btn-warning">Editar</a>
-                                            <a href="#" class="btn btn-sm btn-danger">Excluir</a>
+                                            <a href="../backend/excluir_fornecedor.php?id=<?= $fornecedor['id'] ?>"
+                                                class="btn btn-sm btn-danger"
+                                                onclick="return confirm('Tem certeza que deseja excluir este fornecedor?');">
+                                                Excluir
+                                            </a>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>
