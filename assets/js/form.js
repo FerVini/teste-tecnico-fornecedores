@@ -3,13 +3,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!form) return;
 
-    form.addEventListener('submit', (event) => {
+    form.addEventListener('submit', async (event) => {
+        event.preventDefault(); // bloqueia envio tradicional
+
+        clearErrors();
         let hasError = false;
 
-        // limpa erros anteriores
-        clearErrors();
-
-        // campos obrigatórios
+        // valida campos obrigatórios
         const requiredFields = [
             { id: 'cnpj', message: 'CNPJ é obrigatório' },
             { id: 'razao_social', message: 'Razão Social é obrigatória' },
@@ -21,39 +21,48 @@ document.addEventListener('DOMContentLoaded', () => {
 
         requiredFields.forEach(field => {
             const input = document.getElementById(field.id);
-
             if (!input || input.value.trim() === '') {
                 showError(input, field.message);
                 hasError = true;
             }
         });
 
-        // validação de senha
         const password = document.getElementById('register_password');
         const passwordVerify = document.getElementById('register_password_verify');
 
-        if (
-            password &&
-            passwordVerify &&
-            password.value &&
-            passwordVerify.value &&
-            password.value !== passwordVerify.value
-        ) {
+        if (password && passwordVerify && password.value !== passwordVerify.value) {
             showError(passwordVerify, 'As senhas não conferem');
             hasError = true;
         }
 
-        // se houver erro, bloqueia o submit
-        if (hasError) {
-            event.preventDefault();
+        if (hasError) return;
+
+        // coleta os dados do formulário
+        const formData = new FormData(form);
+
+        try {
+            const response = await fetch('../backend/cadastrar_fornecedor.php', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (data.error) {
+                alert(`Erro: ${data.error}`);
+            } else if (data.success) {
+                alert(data.success);
+                form.reset();
+            }
+        } catch (err) {
+            console.error('Erro ao enviar formulário', err);
+            alert('Erro ao enviar formulário. Tente novamente.');
         }
     });
 
     function showError(input, message) {
         if (!input) return;
-
         input.classList.add('is-invalid');
-
         const feedback = input.nextElementSibling;
         if (feedback && feedback.classList.contains('invalid-feedback')) {
             feedback.textContent = message;
@@ -64,7 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const inputs = form.querySelectorAll('.is-invalid');
         inputs.forEach(input => {
             input.classList.remove('is-invalid');
-
             const feedback = input.nextElementSibling;
             if (feedback && feedback.classList.contains('invalid-feedback')) {
                 feedback.textContent = '';
