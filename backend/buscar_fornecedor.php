@@ -17,6 +17,3 @@ $fornecedor = $stmt->fetch(PDO::FETCH_ASSOC);
 if (!$fornecedor) {
     die('Fornecedor não encontrado');
 }
-
-// Este arquivo NÃO imprime HTML
-// Ele apenas disponibiliza a variável $fornecedor

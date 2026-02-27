@@ -8,7 +8,6 @@ $id = (int) $_GET['id'];
 
 // 2️⃣ Buscar dados do fornecedor
 require '../backend/buscar_fornecedor.php'; // $fornecedor já disponível
-
 ?>
 
 <!DOCTYPE html>
@@ -21,52 +20,38 @@ require '../backend/buscar_fornecedor.php'; // $fornecedor já disponível
 <body>
 <div class="container mt-5">
     <h2>Editar Fornecedor</h2>
-    <form action="../backend/atualizar_fornecedor.php" method="POST">
+    <form id="update-form" action="../backend/atualizar_fornecedor.php" method="POST">
         <input type="hidden" name="id" value="<?= $fornecedor['id'] ?>">
 
-        <div class="mb-3">
-            <label>CNPJ</label>
-            <input type="text" name="cnpj" class="form-control" value="<?= htmlspecialchars($fornecedor['cnpj']) ?>" required>
-        </div>
-
-        <div class="mb-3">
-            <label>Razão Social</label>
-            <input type="text" name="razao_social" class="form-control" value="<?= htmlspecialchars($fornecedor['razao_social']) ?>" required>
-        </div>
-
-        <div class="mb-3">
-            <label>Nome Fantasia</label>
-            <input type="text" name="nome_fantasia" class="form-control" value="<?= htmlspecialchars($fornecedor['nome_fantasia']) ?>" required>
-        </div>
-
-        <div class="mb-3">
-            <label>Email</label>
-            <input type="email" name="email" class="form-control" value="<?= htmlspecialchars($fornecedor['email']) ?>" required>
-        </div>
-
-        <div class="mb-3">
-            <label>Telefone</label>
-            <input type="text" name="telefone" class="form-control" value="<?= htmlspecialchars($fornecedor['telefone']) ?>">
-        </div>
-
-        <div class="mb-3">
-            <label>Endereço</label>
-            <input type="text" name="endereco" class="form-control" value="<?= htmlspecialchars($fornecedor['endereco']) ?>">
-        </div>
-
-        <div class="mb-3">
-            <label>Estado</label>
-            <input type="text" name="estado" class="form-control" value="<?= htmlspecialchars($fornecedor['estado']) ?>">
-        </div>
-
-        <div class="mb-3">
-            <label>Município</label>
-            <input type="text" name="municipio" class="form-control" value="<?= htmlspecialchars($fornecedor['municipio']) ?>">
-        </div>
+        <?php
+        $fields = [
+            'cnpj' => 'CNPJ',
+            'razao_social' => 'Razão Social',
+            'nome_fantasia' => 'Nome Fantasia',
+            'email' => 'Email',
+            'telefone' => 'Telefone',
+            'endereco' => 'Endereço',
+            'estado' => 'Estado',
+            'municipio' => 'Município'
+        ];
+        foreach ($fields as $name => $label): ?>
+            <div class="mb-3">
+                <label><?= $label ?></label>
+                <input type="<?= $name === 'email' ? 'email' : 'text' ?>"
+                       name="<?= $name ?>"
+                       id="<?= $name ?>"
+                       class="form-control"
+                       value="<?= htmlspecialchars($fornecedor[$name]) ?>"
+                       <?= in_array($name, ['cnpj','razao_social','nome_fantasia','email']) ? 'required' : '' ?>>
+                <div class="invalid-feedback"></div>
+            </div>
+        <?php endforeach; ?>
 
         <button type="submit" class="btn btn-success">Atualizar</button>
         <a href="fornecedores.php" class="btn btn-secondary">Voltar</a>
     </form>
 </div>
+
+<script src="assets/js/form.js"></script>
 </body>
 </html>
