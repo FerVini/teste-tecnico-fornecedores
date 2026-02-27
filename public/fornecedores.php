@@ -1,72 +1,48 @@
 <?php
-require __DIR__ . '/../backend/listar_fornecedores.php';
+require '../backend/listar_fornecedor.php';
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fornecedores Cadastrados</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <title>Fornecedores</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
 </head>
-
 <body>
-    <div class="container-fluid mt-5">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="mb-0">Fornecedores</h2>
+<div class="container mt-5">
+    <h1>Lista de Fornecedores</h1>
+    <table class="table table-bordered mt-4">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>CNPJ</th>
+                <th>Razão Social</th>
+                <th>Nome Fantasia</th>
+                <th>Email</th>
+                <th>Criado em</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php foreach ($fornecedores as $f): ?>
+                <tr id="fornecedor-<?= $f['id'] ?>">
+                    <td><?= $f['id'] ?></td>
+                    <td><?= $f['cnpj'] ?></td>
+                    <td><?= $f['razao_social'] ?></td>
+                    <td><?= $f['nome_fantasia'] ?></td>
+                    <td><?= $f['email'] ?></td>
+                    <td><?= $f['created_at'] ?></td>
+                    <td>
+                        <a href="editar_fornecedor.php?id=<?= $f['id'] ?>" class="btn btn-primary btn-sm">Editar</a>
+                        <button class="btn btn-danger btn-sm btn-delete" data-id="<?= $f['id'] ?>">Excluir</button>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
 
-            <a href="index.php" class="btn btn-primary">
-                + Novo Fornecedor
-            </a>
-        </div>
-        <div class="card shadow-sm">
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-striped table-hover mb-0">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>CNPJ</th>
-                                <th>Razão Social</th>
-                                <th>Nome Fantasia</th>
-                                <th>Email</th>
-                                <th class="text-center">Ações</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            <?php if (!empty($fornecedores)): ?>
-                                <?php foreach ($fornecedores as $fornecedor): ?>
-                                    <tr>
-                                        <td><?= htmlspecialchars($fornecedor['cnpj']) ?></td>
-                                        <td><?= htmlspecialchars($fornecedor['razao_social']) ?></td>
-                                        <td><?= htmlspecialchars($fornecedor['nome_fantasia']) ?></td>
-                                        <td><?= htmlspecialchars($fornecedor['email']) ?></td>
-                                        <td class="text-center">
-                                            <a href="atualizar_fornecedor.php?id=<?= $fornecedor['id'] ?>" class="btn btn-sm btn-warning">Editar</a>
-                                            <a href="../backend/excluir_fornecedor.php?id=<?= $fornecedor['id'] ?>"
-                                                class="btn btn-sm btn-danger"
-                                                onclick="return confirm('Tem certeza que deseja excluir este fornecedor?');">
-                                                Excluir
-                                            </a>
-                                        </td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            <?php else: ?>
-                                <tr>
-                                    <td colspan="5" class="text-center py-4">
-                                        Nenhum fornecedor cadastrado.
-                                    </td>
-                                </tr>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="../assets/js/fornecedores.js"></script>
 </body>
-
 </html>
