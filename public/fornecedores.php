@@ -11,7 +11,7 @@ require '../backend/listar_fornecedores.php';
 <body>
 <div class="container mt-5">
     <h1>Lista de Fornecedores</h1>
-    <table class="table table-bordered mt-4">
+    <table class="table table-bordered mt-4" id="tabela-fornecedores">
         <thead class="table-dark">
             <tr>
                 <th>ID</th>
