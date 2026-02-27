@@ -80,3 +80,34 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// Atualização via AJAX
+const updateForm = document.querySelector('#update-form'); // supondo que seja o form de edição
+
+if (updateForm) {
+    updateForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        clearErrors(); // função já existente
+
+        const formData = new FormData(updateForm);
+
+        fetch('../backend/atualizar_fornecedor.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert(data.success);
+                // opcional: atualizar tabela ou redirecionar
+                window.location.href = '../public/fornecedores.php';
+            } else if (data.error) {
+                alert(data.error);
+            }
+        })
+        .catch(err => {
+            console.error('Erro na requisição:', err);
+            alert('Erro ao atualizar fornecedor');
+        });
+    });
+}
