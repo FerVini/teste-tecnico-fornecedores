@@ -1,27 +1,31 @@
-// fornecedores.js
-$(document).ready(function() {
-    $('.btn-delete').click(function() {
-        const id = $(this).data('id');
+document.addEventListener('DOMContentLoaded', () => {
+    const tabela = document.querySelector('#tabela-fornecedores');
+
+    if (!tabela) return;
+
+    tabela.addEventListener('click', async (e) => {
+        if (!e.target.classList.contains('btn-delete')) return;
+
+        const id = e.target.dataset.id;
         if (!id) return;
 
-        if (!confirm('Deseja realmente excluir este fornecedor?')) return;
+        const confirmDelete = confirm('Deseja realmente excluir este fornecedor?');
+        if (!confirmDelete) return;
 
-        $.ajax({
-            url: '../backend/excluir_fornecedor.php',
-            type: 'GET',
-            data: { id },
-            dataType: 'json',
-            success: function(res) {
-                if (res.success) {
-                    $('#fornecedor-' + id).fadeOut(500, function() { $(this).remove(); });
-                    alert(res.message);
-                } else {
-                    alert(res.message);
-                }
-            },
-            error: function() {
-                alert('Erro na requisição');
+        try {
+            const response = await fetch(`../backend/excluir_fornecedor.php?id=${id}`);
+            const data = await response.json();
+
+            if (data.success) {
+                // Remove a linha da tabela
+                const row = e.target.closest('tr');
+                if (row) row.remove();
+                alert(data.msg);
+            } else {
+                alert(data.msg);
             }
-        });
+        } catch (error) {
+            alert('Erro na requisição: ' + error.message);
+        }
     });
 });

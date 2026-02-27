@@ -1,5 +1,5 @@
 <?php
-require '../backend/listar_fornecedor.php';
+require '../backend/listar_fornecedores.php';
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
