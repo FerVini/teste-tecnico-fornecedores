@@ -45,7 +45,7 @@ require __DIR__ . '/../backend/listar_fornecedores.php';
                                         <td><?= htmlspecialchars($fornecedor['nome_fantasia']) ?></td>
                                         <td><?= htmlspecialchars($fornecedor['email']) ?></td>
                                         <td class="text-center">
-                                            <a href="#" class="btn btn-sm btn-warning">Editar</a>
+                                            <a href="atualizar_fornecedor.php?id=<?= $fornecedor['id'] ?>" class="btn btn-sm btn-warning">Editar</a>
                                             <a href="#" class="btn btn-sm btn-danger">Excluir</a>
                                         </td>
                                     </tr>
