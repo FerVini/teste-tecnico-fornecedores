@@ -1,11 +1,9 @@
 <?php
 require 'config.php';
-
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-    http_response_code(405);
-    echo json_encode(['error' => 'Método não permitido']);
+    echo json_encode(['error' => 'Acesso inválido']);
     exit;
 }
 
@@ -19,24 +17,8 @@ $endereco       = $_POST['endereco'] ?? null;
 $estado         = $_POST['estado'] ?? null;
 $municipio      = $_POST['municipio'] ?? null;
 
-// Validação de campos obrigatórios
 if (!$id || !$cnpj || !$razao_social || !$nome_fantasia || !$email) {
-    http_response_code(422);
     echo json_encode(['error' => 'Campos obrigatórios não preenchidos']);
-    exit;
-}
-
-// Validação de CNPJ
-if (!preg_match('/^\d{2}\.\d{3}\.\d{3}\/\d{4}-\d{2}$/', $cnpj)) {
-    http_response_code(422);
-    echo json_encode(['error' => 'CNPJ inválido']);
-    exit;
-}
-
-// Validação de e-mail
-if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-    http_response_code(422);
-    echo json_encode(['error' => 'E-mail inválido']);
     exit;
 }
 
@@ -71,10 +53,8 @@ try {
     echo json_encode(['success' => 'Fornecedor atualizado com sucesso']);
 } catch (PDOException $e) {
     if ($e->getCode() === '23000') {
-        http_response_code(409);
         echo json_encode(['error' => 'Este CNPJ já está cadastrado']);
     } else {
-        http_response_code(500);
         echo json_encode(['error' => 'Erro ao atualizar fornecedor']);
     }
 }

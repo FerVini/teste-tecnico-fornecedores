@@ -1,9 +1,10 @@
 <?php
 require 'config.php';
+header('Content-Type: application/json');
 
-// Verifica se o ID foi enviado
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-    die('ID inválido');
+    echo json_encode(['error' => 'ID inválido']);
+    exit;
 }
 
 $id = (int) $_GET['id'];
@@ -13,9 +14,7 @@ $stmt = $pdo->prepare($sql);
 
 try {
     $stmt->execute([':id' => $id]);
-    // Redireciona de volta para a lista de fornecedores
-    header('Location: ../public/fornecedores.php?msg=excluido');
-    exit;
+    echo json_encode(['success' => 'Fornecedor excluído com sucesso']);
 } catch (PDOException $e) {
-    die('Erro ao excluir fornecedor: ' . $e->getMessage());
+    echo json_encode(['error' => 'Erro ao excluir fornecedor']);
 }
